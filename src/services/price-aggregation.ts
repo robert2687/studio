@@ -29,31 +29,71 @@ export async function getProductPrices(productName: string): Promise<ProductPric
   // Simulate calling an AI-driven API for fetching prices from global retailers without VPN restrictions.
   // This function should now be able to handle more complex and nuanced queries, thanks to the enhanced AI.
 
-  const searchResults = await simulateAISearch(productName);
-  return searchResults;
+  // Simulate fetching prices from multiple retailers concurrently
+  const [luxuryCosmeticsPrices, globalBeautyPrices, worldwideBeautyPrices] = await Promise.all([
+    simulateLuxuryCosmeticsSearch(productName),
+    simulateGlobalBeautyEmporiumSearch(productName),
+    simulateWorldwideBeautyOutletSearch(productName),
+  ]);
+
+  // Combine the results from all retailers
+  const allPrices = [
+    ...luxuryCosmeticsPrices,
+    ...globalBeautyPrices,
+    ...worldwideBeautyPrices,
+  ];
+
+  return allPrices;
 }
 
 /**
- * Simulates an AI-driven search across global online retailers.
+ * Simulates an AI-driven search across Luxury Cosmetics Inc.
  * @param productName The name of the cosmetic product to search for.
  * @returns A promise that resolves to an array of ProductPrice objects.
  */
-async function simulateAISearch(productName: string): Promise<ProductPrice[]> {
+async function simulateLuxuryCosmeticsSearch(productName: string): Promise<ProductPrice[]> {
   // This is where the AI-driven search logic would be implemented.
   // For the purpose of this example, we'll return a mock array of ProductPrice objects.
+  console.log(`Simulating search at Luxury Cosmetics Inc. for: ${productName}`);
   return [
     {
       retailer: 'Luxury Cosmetics Inc.',
       price: 32.99,
       currency: 'USD',
       productUrl: 'https://luxurycosmetics.com/product123'
-    },
+    }
+  ];
+}
+
+/**
+ * Simulates an AI-driven search across Global Beauty Emporium.
+ * @param productName The name of the cosmetic product to search for.
+ * @returns A promise that resolves to an array of ProductPrice objects.
+ */
+async function simulateGlobalBeautyEmporiumSearch(productName: string): Promise<ProductPrice[]> {
+  // This is where the AI-driven search logic would be implemented.
+  // For the purpose of this example, we'll return a mock array of ProductPrice objects.
+    console.log(`Simulating search at Global Beauty Emporium for: ${productName}`);
+  return [
     {
       retailer: 'Global Beauty Emporium',
       price: 28.50,
       currency: 'USD',
       productUrl: 'https://globalbeautyemporium.com/product456'
-    },
+    }
+  ];
+}
+
+/**
+ * Simulates an AI-driven search across Worldwide Beauty Outlet.
+ * @param productName The name of the cosmetic product to search for.
+ * @returns A promise that resolves to an array of ProductPrice objects.
+ */
+async function simulateWorldwideBeautyOutletSearch(productName: string): Promise<ProductPrice[]> {
+  // This is where the AI-driven search logic would be implemented.
+  // For the purpose of this example, we'll return a mock array of ProductPrice objects.
+    console.log(`Simulating search at Worldwide Beauty Outlet for: ${productName}`);
+  return [
     {
       retailer: 'Worldwide Beauty Outlet',
       price: 22.00,
