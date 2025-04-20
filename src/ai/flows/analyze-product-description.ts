@@ -19,6 +19,8 @@ const AnalyzeProductDescriptionOutputSchema = z.object({
   keyIngredients: z.array(z.string()).describe('A comprehensive list of key ingredients identified in the product description, with detailed information about their benefits.'),
   qualities: z.array(z.string()).describe('An extensive list of qualities or benefits described in the product description, including specific effects on the skin or hair.'),
   suggestedProducts: z.array(z.string()).describe('A list of similar products based on the identified ingredients and qualities, providing alternatives or complementary options.'),
+  safetyRating: z.string().describe("EWG safety rating of the product, if available"),
+  usageInstructions: z.string().describe("How to use instruction if available")
 });
 export type AnalyzeProductDescriptionOutput = z.infer<typeof AnalyzeProductDescriptionOutputSchema>;
 
@@ -38,9 +40,11 @@ const prompt = ai.definePrompt({
       keyIngredients: z.array(z.string()).describe('A comprehensive list of key ingredients and their benefits.'),
       qualities: z.array(z.string()).describe('An extensive list of qualities or benefits, including specific effects.'),
       suggestedProducts: z.array(z.string()).describe('A list of similar and complementary products.'),
+      safetyRating: z.string().describe("EWG safety rating of the product, if available"),
+      usageInstructions: z.string().describe("How to use instruction if available")
     }),
   },
-  prompt: `You are an expert cosmetic product analyst with deep knowledge of ingredients, qualities, and market alternatives. Analyze the following product description to extract key ingredients, benefits, and suggest similar products.
+  prompt: `You are an expert cosmetic product analyst with deep knowledge of ingredients, qualities, and market alternatives. Analyze the following product description to extract key ingredients, benefits, and suggest similar products. Also find out safety rating and usage instruction if available.
 
 Product Description: {{{productDescription}}}
 
@@ -48,11 +52,15 @@ Provide a detailed analysis, focusing on:
 - Listing all key ingredients with a brief explanation of their benefits.
 - Describing all the qualities and benefits of the product, specifying effects on skin or hair.
 - Suggesting similar or complementary products that the user might find useful.
+- Safety Rating
+- Usage Instructions
 
 Analysis:
 Key Ingredients:
 Qualities:
-Suggested Products:`,
+Suggested Products:
+Safety Rating:
+Usage Instructions:`,
 });
 
 const analyzeProductDescriptionFlow = ai.defineFlow<
