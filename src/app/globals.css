@@ -4,6 +4,11 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
+  /* Attempt to set a background image, adjust the path as needed */
+  background-image: url('/cosmetics-background.jpg'); /* Replace with your image path */
+  background-size: cover; /* Cover the entire background */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  background-attachment: fixed; /* Keep the background fixed while scrolling */
 }
 
 @layer base {
@@ -86,5 +91,3 @@ body {
     @apply bg-background text-foreground;
   }
 }
-
-
