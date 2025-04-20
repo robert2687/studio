@@ -48,6 +48,9 @@ export async function getProductPrices(productName: string): Promise<ProductPric
   return allPrices;
 }
 
+const PRICE_AGGREGATOR_API_KEY = 'YOUR_PRICE_AGGREGATOR_API_KEY'; // Replace with your actual API key
+const PRICE_AGGREGATOR_ENDPOINT = 'https://api.priceaggregator.com/v1/prices'; // Replace with the actual API endpoint
+
 /**
  * Simulates an AI-driven search across Sephora.
  * @param productName The name of the cosmetic product to search for.
@@ -57,20 +60,7 @@ async function simulateSephoraSearch(productName: string): Promise<ProductPrice[
   // This is where the AI-driven search logic would be implemented.
   // For the purpose of this example, we'll return a mock array of ProductPrice objects.
   console.log(`Simulating search at Sephora for: ${productName}`);
-  return [
-    {
-      retailer: 'Sephora',
-      price: 35.00,
-      currency: 'USD',
-      productUrl: 'https://sephora.com/product123'
-    },
-    {
-      retailer: 'Sephora',
-      price: 42.50,
-      currency: 'USD',
-      productUrl: 'https://sephora.com/product456'
-    }
-  ];
+  return simulatePriceAggregatorCall('Sephora', productName);
 }
 
 /**
@@ -82,20 +72,7 @@ async function simulateDouglasSearch(productName: string): Promise<ProductPrice[
   // This is where the AI-driven search logic would be implemented.
   // For the purpose of this example, we'll return a mock array of ProductPrice objects.
   console.log(`Simulating search at Douglas for: ${productName}`);
-  return [
-    {
-      retailer: 'Douglas',
-      price: 38.00,
-      currency: 'EUR',
-      productUrl: 'https://douglas.com/product789'
-    },
-    {
-      retailer: 'Douglas',
-      price: 45.00,
-      currency: 'EUR',
-      productUrl: 'https://douglas.com/product910'
-    }
-  ];
+  return simulatePriceAggregatorCall('Douglas', productName);
 }
 
 /**
@@ -107,20 +84,7 @@ async function simulateNotinoSearch(productName: string): Promise<ProductPrice[]
   // This is where the AI-driven search logic would be implemented.
   // For the purpose of this example, we'll return a mock array of ProductPrice objects.
   console.log(`Simulating search at Notino for: ${productName}`);
-  return [
-    {
-      retailer: 'Notino',
-      price: 32.00,
-      currency: 'EUR',
-      productUrl: 'https://notino.com/product112'
-    },
-    {
-      retailer: 'Notino',
-      price: 39.00,
-      currency: 'EUR',
-      productUrl: 'https://notino.com/product314'
-    }
-  ];
+  return simulatePriceAggregatorCall('Notino', productName);
 }
 
 /**
@@ -132,18 +96,26 @@ async function simulateAmazonSearch(productName: string): Promise<ProductPrice[]
   // This is where the AI-driven search logic would be implemented.
   // For the purpose of this example, we'll return a mock array of ProductPrice objects.
   console.log(`Simulating search at Amazon for: ${productName}`);
+  return simulatePriceAggregatorCall('Amazon', productName);
+}
+
+/**
+ * Simulates a call to the price aggregator API.
+ * @param retailer The retailer name.
+ * @param productName The product name.
+ * @returns A promise that resolves to an array of ProductPrice objects.
+ */
+async function simulatePriceAggregatorCall(retailer: string, productName: string): Promise<ProductPrice[]> {
+  // In a real implementation, this function would make an actual API call to the price aggregator.
+  // For this example, it returns mock data.
+  console.log(`Calling price aggregator for: ${retailer} - ${productName}`);
+  // Simulate API response
   return [
     {
-      retailer: 'Amazon',
-      price: 28.00,
+      retailer: retailer,
+      price: Math.random() * 50 + 20, // Mock price
       currency: 'USD',
-      productUrl: 'https://amazon.com/product516'
-    },
-    {
-      retailer: 'Amazon',
-      price: 36.00,
-      currency: 'USD',
-      productUrl: 'https://amazon.com/product718'
+      productUrl: `https://${retailer.toLowerCase()}.com/product/${productName.replace(/\s+/g, '-')}`
     }
   ];
 }
