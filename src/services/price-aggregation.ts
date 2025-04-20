@@ -30,18 +30,18 @@ export async function getProductPrices(productName: string): Promise<ProductPric
   // This function should now be able to handle more complex and nuanced queries, thanks to the enhanced AI.
 
   // Simulate fetching prices from multiple retailers concurrently
-  const [luxuryCosmeticsPrices, globalBeautyPrices, worldwideBeautyPrices, amazonPrices] = await Promise.all([
-    simulateLuxuryCosmeticsSearch(productName),
-    simulateGlobalBeautyEmporiumSearch(productName),
-    simulateWorldwideBeautyOutletSearch(productName),
+  const [sephoraPrices, douglasPrices, notinoPrices, amazonPrices] = await Promise.all([
+    simulateSephoraSearch(productName),
+    simulateDouglasSearch(productName),
+    simulateNotinoSearch(productName),
     simulateAmazonSearch(productName),
   ]);
 
   // Combine the results from all retailers
   const allPrices = [
-    ...luxuryCosmeticsPrices,
-    ...globalBeautyPrices,
-    ...worldwideBeautyPrices,
+    ...sephoraPrices,
+    ...douglasPrices,
+    ...notinoPrices,
     ...amazonPrices,
   ];
 
@@ -49,58 +49,76 @@ export async function getProductPrices(productName: string): Promise<ProductPric
 }
 
 /**
- * Simulates an AI-driven search across Luxury Cosmetics Inc.
+ * Simulates an AI-driven search across Sephora.
  * @param productName The name of the cosmetic product to search for.
  * @returns A promise that resolves to an array of ProductPrice objects.
  */
-async function simulateLuxuryCosmeticsSearch(productName: string): Promise<ProductPrice[]> {
+async function simulateSephoraSearch(productName: string): Promise<ProductPrice[]> {
   // This is where the AI-driven search logic would be implemented.
   // For the purpose of this example, we'll return a mock array of ProductPrice objects.
-  console.log(`Simulating search at Luxury Cosmetics Inc. for: ${productName}`);
+  console.log(`Simulating search at Sephora for: ${productName}`);
   return [
     {
-      retailer: 'Luxury Cosmetics Inc.',
-      price: 32.99,
+      retailer: 'Sephora',
+      price: 35.00,
       currency: 'USD',
-      productUrl: 'https://luxurycosmetics.com/product123'
+      productUrl: 'https://sephora.com/product123'
+    },
+    {
+      retailer: 'Sephora',
+      price: 42.50,
+      currency: 'USD',
+      productUrl: 'https://sephora.com/product456'
     }
   ];
 }
 
 /**
- * Simulates an AI-driven search across Global Beauty Emporium.
+ * Simulates an AI-driven search across Douglas.
  * @param productName The name of the cosmetic product to search for.
  * @returns A promise that resolves to an array of ProductPrice objects.
  */
-async function simulateGlobalBeautyEmporiumSearch(productName: string): Promise<ProductPrice[]> {
+async function simulateDouglasSearch(productName: string): Promise<ProductPrice[]> {
   // This is where the AI-driven search logic would be implemented.
   // For the purpose of this example, we'll return a mock array of ProductPrice objects.
-    console.log(`Simulating search at Global Beauty Emporium for: ${productName}`);
+  console.log(`Simulating search at Douglas for: ${productName}`);
   return [
     {
-      retailer: 'Global Beauty Emporium',
-      price: 28.50,
-      currency: 'USD',
-      productUrl: 'https://globalbeautyemporium.com/product456'
+      retailer: 'Douglas',
+      price: 38.00,
+      currency: 'EUR',
+      productUrl: 'https://douglas.com/product789'
+    },
+    {
+      retailer: 'Douglas',
+      price: 45.00,
+      currency: 'EUR',
+      productUrl: 'https://douglas.com/product910'
     }
   ];
 }
 
 /**
- * Simulates an AI-driven search across Worldwide Beauty Outlet.
+ * Simulates an AI-driven search across Notino.
  * @param productName The name of the cosmetic product to search for.
  * @returns A promise that resolves to an array of ProductPrice objects.
  */
-async function simulateWorldwideBeautyOutletSearch(productName: string): Promise<ProductPrice[]> {
+async function simulateNotinoSearch(productName: string): Promise<ProductPrice[]> {
   // This is where the AI-driven search logic would be implemented.
   // For the purpose of this example, we'll return a mock array of ProductPrice objects.
-    console.log(`Simulating search at Worldwide Beauty Outlet for: ${productName}`);
+  console.log(`Simulating search at Notino for: ${productName}`);
   return [
     {
-      retailer: 'Worldwide Beauty Outlet',
-      price: 22.00,
-      currency: 'USD',
-      productUrl: 'https://worldwidebeautyoutlet.com/product789'
+      retailer: 'Notino',
+      price: 32.00,
+      currency: 'EUR',
+      productUrl: 'https://notino.com/product112'
+    },
+    {
+      retailer: 'Notino',
+      price: 39.00,
+      currency: 'EUR',
+      productUrl: 'https://notino.com/product314'
     }
   ];
 }
@@ -117,9 +135,15 @@ async function simulateAmazonSearch(productName: string): Promise<ProductPrice[]
   return [
     {
       retailer: 'Amazon',
-      price: 25.00,
+      price: 28.00,
       currency: 'USD',
-      productUrl: 'https://amazon.com/product123'
+      productUrl: 'https://amazon.com/product516'
+    },
+    {
+      retailer: 'Amazon',
+      price: 36.00,
+      currency: 'USD',
+      productUrl: 'https://amazon.com/product718'
     }
   ];
 }
