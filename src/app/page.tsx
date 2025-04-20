@@ -11,6 +11,12 @@ import { ExternalLink } from 'lucide-react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast"
 
+interface RareCosmetic {
+  name: string;
+  description: string;
+  imageUrl: string;
+}
+
 export default function Home() {
   const [productName, setProductName] = useState('');
   const [productDescription, setProductDescription] = useState('');
@@ -18,6 +24,28 @@ export default function Home() {
   const [analysis, setAnalysis] = useState<AnalyzeProductDescriptionOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast()
+  const [rareCosmetics, setRareCosmetics] = useState<RareCosmetic[]>([
+    {
+      name: "Chanel No. 5 Parfum Grand Extrait",
+      description: "An exquisite, limited-edition presentation of the iconic Chanel No. 5 fragrance.",
+      imageUrl: "https://picsum.photos/200/300", // Placeholder image
+    },
+    {
+      name: "Guerlain KissKiss Gold and Diamonds Lipstick",
+      description: "A luxurious lipstick encased in 18-carat gold and adorned with diamonds.",
+      imageUrl: "https://picsum.photos/200/300", // Placeholder image
+    },
+    {
+      name: "H.R.H. Princess Diana Sapphire Perfume",
+      description: "A rare perfume dedicated to Princess Diana, featuring a sapphire-encrusted bottle.",
+      imageUrl: "https://picsum.photos/200/300", // Placeholder image
+    },
+    {
+      name: "Shiseido Eudermine Revitalizing Essence (1897)",
+      description: "A replica of the original Eudermine, Shiseido's oldest product, in a vintage bottle.",
+      imageUrl: "https://picsum.photos/200/300", // Placeholder image
+    }
+  ]);
 
   useEffect(() => {
     // Simulate fetching data for rare cosmetics examples.
@@ -175,6 +203,27 @@ export default function Home() {
           </CardContent>
         </Card>
       )}
+
+        <Card className="max-w-4xl mx-auto mt-8">
+          <CardHeader>
+            <CardTitle>Rare Cosmetics Examples</CardTitle>
+            <CardDescription>Explore some of the most unique and hard-to-find cosmetics.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ScrollArea className="h-[300px] w-full rounded-md border">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+                {rareCosmetics.map((cosmetic, index) => (
+                  <div key={index} className="flex flex-col items-center justify-center p-4 border rounded-md">
+                    <img src={cosmetic.imageUrl} alt={cosmetic.name} className="w-24 h-24 object-cover rounded-md mb-2" />
+                    <h4 className="text-sm font-semibold text-center">{cosmetic.name}</h4>
+                    <p className="text-xs text-muted-foreground text-center">{cosmetic.description}</p>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          </CardContent>
+        </Card>
     </div>
   );
 }
+
