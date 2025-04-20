@@ -30,10 +30,11 @@ export async function getProductPrices(productName: string): Promise<ProductPric
   // This function should now be able to handle more complex and nuanced queries, thanks to the enhanced AI.
 
   // Simulate fetching prices from multiple retailers concurrently
-  const [luxuryCosmeticsPrices, globalBeautyPrices, worldwideBeautyPrices] = await Promise.all([
+  const [luxuryCosmeticsPrices, globalBeautyPrices, worldwideBeautyPrices, amazonPrices] = await Promise.all([
     simulateLuxuryCosmeticsSearch(productName),
     simulateGlobalBeautyEmporiumSearch(productName),
     simulateWorldwideBeautyOutletSearch(productName),
+    simulateAmazonSearch(productName),
   ]);
 
   // Combine the results from all retailers
@@ -41,6 +42,7 @@ export async function getProductPrices(productName: string): Promise<ProductPric
     ...luxuryCosmeticsPrices,
     ...globalBeautyPrices,
     ...worldwideBeautyPrices,
+    ...amazonPrices,
   ];
 
   return allPrices;
@@ -99,6 +101,25 @@ async function simulateWorldwideBeautyOutletSearch(productName: string): Promise
       price: 22.00,
       currency: 'USD',
       productUrl: 'https://worldwidebeautyoutlet.com/product789'
+    }
+  ];
+}
+
+/**
+ * Simulates an AI-driven search across Amazon.
+ * @param productName The name of the cosmetic product to search for.
+ * @returns A promise that resolves to an array of ProductPrice objects.
+ */
+async function simulateAmazonSearch(productName: string): Promise<ProductPrice[]> {
+  // This is where the AI-driven search logic would be implemented.
+  // For the purpose of this example, we'll return a mock array of ProductPrice objects.
+  console.log(`Simulating search at Amazon for: ${productName}`);
+  return [
+    {
+      retailer: 'Amazon',
+      price: 25.00,
+      currency: 'USD',
+      productUrl: 'https://amazon.com/product123'
     }
   ];
 }
