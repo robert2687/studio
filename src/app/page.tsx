@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,6 +8,8 @@ import { getProductPrices, ProductPrice } from '@/services/price-aggregation';
 import { analyzeProductDescription, AnalyzeProductDescriptionOutput } from '@/ai/flows/analyze-product-description';
 import { Badge } from '@/components/ui/badge';
 import { ExternalLink } from 'lucide-react';
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/hooks/use-toast"
 
 export default function Home() {
   const [productName, setProductName] = useState('');
@@ -15,6 +17,12 @@ export default function Home() {
   const [prices, setPrices] = useState<ProductPrice[]>([]);
   const [analysis, setAnalysis] = useState<AnalyzeProductDescriptionOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast()
+
+  useEffect(() => {
+    // Simulate fetching data for rare cosmetics examples.
+    // Replace this with actual data fetching from an API or database.
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProductName(e.target.value);
@@ -39,9 +47,13 @@ export default function Home() {
         const analysisResults = await analyzeProductDescription({ productDescription });
         setAnalysis(analysisResults);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching data:", error);
-      // TODO: Show error message to user
+      toast({
+        title: "Error",
+        description: "Failed to fetch data. Please try again.",
+        variant: "destructive",
+      })
     } finally {
       setIsLoading(false);
     }
@@ -49,10 +61,10 @@ export default function Home() {
 
   return (
     <div className="container mx-auto p-4">
-      <Card className="max-w-2xl mx-auto">
+      <Card className="max-w-4xl mx-auto">
         <CardHeader>
           <CardTitle>Global Glam Finder</CardTitle>
-          <CardDescription>Find the best prices for your favorite cosmetics worldwide.</CardDescription>
+          <CardDescription>Find the best prices and detailed analysis for your favorite cosmetics worldwide.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -89,10 +101,10 @@ export default function Home() {
       </Card>
 
       {analysis && (
-        <Card className="max-w-2xl mx-auto mt-8">
+        <Card className="max-w-4xl mx-auto mt-8">
           <CardHeader>
             <CardTitle>AI Analysis</CardTitle>
-            <CardDescription>Key ingredients and qualities identified by AI.</CardDescription>
+            <CardDescription>Detailed ingredients, qualities, and alternatives identified by AI.</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="mb-4">
@@ -107,7 +119,7 @@ export default function Home() {
                 <p>No key ingredients found.</p>
               )}
             </div>
-            <div>
+            <div className="mb-4">
               <h3 className="text-lg font-semibold mb-2">Qualities</h3>
               {analysis.qualities.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
@@ -119,15 +131,27 @@ export default function Home() {
                 <p>No qualities found.</p>
               )}
             </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-2">Suggested Products</h3>
+              {analysis.suggestedProducts.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {analysis.suggestedProducts.map((product, index) => (
+                    <Badge key={index}>{product}</Badge>
+                  ))}
+                </div>
+              ) : (
+                <p>No similar products found.</p>
+              )}
+            </div>
           </CardContent>
         </Card>
       )}
 
       {prices.length > 0 && (
-        <Card className="max-w-2xl mx-auto mt-8">
+        <Card className="max-w-4xl mx-auto mt-8">
           <CardHeader>
             <CardTitle>Price Comparison</CardTitle>
-            <CardDescription>Prices sorted from lowest to highest.</CardDescription>
+            <CardDescription>Prices sorted from lowest to highest, with retailer details.</CardDescription>
           </CardHeader>
           <CardContent>
             <ul className="divide-y divide-border">
@@ -141,7 +165,7 @@ export default function Home() {
                   </div>
                   <Button variant="outline" size="sm" asChild>
                     <a href={item.productUrl} target="_blank" rel="noopener noreferrer" className="flex items-center">
-                      Buy Now
+                      View at {item.retailer}
                       <ExternalLink className="ml-2 h-4 w-4" />
                     </a>
                   </Button>
@@ -154,6 +178,3 @@ export default function Home() {
     </div>
   );
 }
-
-
-    
