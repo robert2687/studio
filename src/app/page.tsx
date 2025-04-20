@@ -17,6 +17,22 @@ interface RareCosmetic {
   imageUrl: string;
 }
 
+interface Product {
+  name: string;
+  brand: string;
+  category: string;
+  subcategory: string;
+  description: string;
+  ingredients: string[];
+  shades?: { [shadeName: string]: string };
+  variants?: string[];
+  averagePrice: number;
+  eanUpcCode: string;
+  images: string[];
+  userRatings?: { averageRating: number; ratingCount: number };
+  sellerLinks: { [sellerName: string]: string };
+}
+
 export default function Home() {
   const [productName, setProductName] = useState('');
   const [productDescription, setProductDescription] = useState('');
@@ -46,6 +62,64 @@ export default function Home() {
       imageUrl: "https://picsum.photos/200/300", // Placeholder image
     }
   ]);
+
+    const [sampleProducts, setSampleProducts] = useState<Product[]>([
+        {
+            name: "Hyaluronic Acid Serum",
+            brand: "The Ordinary",
+            category: "skincare",
+            subcategory: "serum",
+            description: "A hydrating serum with hyaluronic acid.",
+            ingredients: ["Hyaluronic Acid", "Vitamin B5"],
+            averagePrice: 7.50,
+            eanUpcCode: "629110735424",
+            images: ["https://picsum.photos/200/300"],
+            userRatings: { averageRating: 4.5, ratingCount: 1200 },
+            sellerLinks: {
+                "Sephora": "https://www.sephora.com/...",
+                "Ulta": "https://www.ulta.com/..."
+            },
+            variants: ["30ml", "60ml"]
+        },
+        {
+            name: "Superstay Matte Ink Lipstick",
+            brand: "Maybelline",
+            category: "makeup",
+            subcategory: "lipstick",
+            description: "A long-lasting matte lipstick.",
+            ingredients: ["Dimethicone", "Silica"],
+            shades: {
+                "Lover": "#FF0000",
+                "Pioneer": "#B3214F"
+            },
+            averagePrice: 9.99,
+            eanUpcCode: "041554491301",
+            images: ["https://picsum.photos/200/300"],
+            userRatings: { averageRating: 4.2, ratingCount: 800 },
+            sellerLinks: {
+                "Amazon": "https://www.amazon.com/...",
+                "Target": "https://www.target.com/..."
+            },
+            variants: ["Various Shades"]
+        },
+        {
+            name: "Argan Oil Shampoo",
+            brand: "Moroccanoil",
+            category: "haircare",
+            subcategory: "shampoo",
+            description: "A shampoo infused with argan oil for smooth and shiny hair.",
+            ingredients: ["Argan Oil", "Keratin"],
+            averagePrice: 24.00,
+            eanUpcCode: "7290011521034",
+            images: ["https://picsum.photos/200/300"],
+            userRatings: { averageRating: 4.7, ratingCount: 1500 },
+            sellerLinks: {
+                "Nordstrom": "https://www.nordstrom.com/...",
+                "Amazon": "https://www.amazon.com/..."
+            },
+            variants: ["8.5 oz", "33.8 oz"]
+        }
+    ]);
 
   useEffect(() => {
     // Simulate fetching data for rare cosmetics examples.
@@ -223,6 +297,25 @@ export default function Home() {
             </ScrollArea>
           </CardContent>
         </Card>
+
+         <Card className="max-w-4xl mx-auto mt-8">
+                <CardHeader>
+                    <CardTitle>Sample Products</CardTitle>
+                    <CardDescription>Explore a few sample cosmetic products.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {sampleProducts.map((product, index) => (
+                            <div key={index} className="border rounded-md p-4">
+                                <h3 className="text-lg font-semibold">{product.name}</h3>
+                                <p className="text-sm text-muted-foreground">{product.brand} - {product.category}</p>
+                                <p className="text-sm">{product.description}</p>
+                                {/* Add more details as needed */}
+                            </div>
+                        ))}
+                    </div>
+                </CardContent>
+            </Card>
     </div>
   );
 }
